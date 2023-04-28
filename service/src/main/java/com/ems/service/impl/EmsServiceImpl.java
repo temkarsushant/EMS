@@ -43,8 +43,6 @@ public class EmsServiceImpl implements EmsService {
 		}
 
 		Long id = employeeRepository.saveEmployee(employeeMapper.dtoToEmployee(employeeDto));
-		System.out.println("******************");
-		System.out.println(id);
 		if (id != null) {
 			Optional<Employee> employeeDetails = employeeRepository.getEmployeeById(id);
 			return employeeDetails.get();
@@ -65,20 +63,6 @@ public class EmsServiceImpl implements EmsService {
 				employeeDtos.add(employeeMapper.employeeToDto(employee));
 			});
 
-			// for (Employee employee : employeList) {
-//				EmployeeDto employeeDto = employeeMapper.employeeToDto(employee);
-//
-////				EmployeeDto employeeDto = new EmployeeDto();
-////				employeeDto.setAge(CommonUtility.calculateAge(CommonUtility.getLocalDate(employee.getDateOfBirth())));
-////				employeeDto.setAudit(employee.getAudit());
-////				employeeDto.setDateOfBirth(employee.getDateOfBirth());
-////				employeeDto.setGrade(employee.getGrade());
-////				employeeDto.setDesignation(CommonUtility.getEmployeeDesignation(employee.getGrade()));
-////				employeeDto.setFullName(employee.getFirstName() + " " + employee.getLastName());
-////				employeeDto.setMobileNumber(employee.getMobileNumber());
-////				employeeDto.setSalary(employee.getSalary());
-//				employeeDtos.add(employeeDto);
-//			}
 		} else {
 			throw new EmployeeNotFoundException(CommonMessagesConstants.EmployeeNotFoundException);
 		}
@@ -91,19 +75,9 @@ public class EmsServiceImpl implements EmsService {
 		Optional<Employee> employeeDetails = employeeRepository.getEmployeeById(eid);
 
 		if (employeeDetails != null && employeeDetails.isPresent()) {
-//			EmployeeDto employeeDto = new EmployeeDto();
 			Employee employee = employeeDetails.get();
 
 			EmployeeDto employeeDto = employeeMapper.employeeToDto(employee);
-
-//			employeeDto.setAge(CommonUtility.calculateAge(CommonUtility.getLocalDate(employee.getDateOfBirth())));
-//			employeeDto.setAudit(employee.getAudit());
-//			employeeDto.setDateOfBirth(employee.getDateOfBirth());
-//			employeeDto.setGrade(employee.getGrade());
-//			employeeDto.setDesignation(CommonUtility.getEmployeeDesignation(employee.getGrade()));
-//			employeeDto.setFullName(employee.getFirstName() + " " + employee.getLastName());
-//			employeeDto.setMobileNumber(employee.getMobileNumber());
-//			employeeDto.setSalary(employee.getSalary());
 			return employeeDto;
 		} else {
 			throw new EmployeeNotFoundException(CommonMessagesConstants.EmployeeNotFoundException);
