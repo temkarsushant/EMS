@@ -1,0 +1,2 @@
+insert into employee(uuid,first_name,last_name,mobile_number,grade,salary,date_of_birth,audit) values(1,'Sushant','Temkar','7972501198','E1','20000','05/08/1997',true)
+insert into employee(uuid,first_name,last_name,mobile_number,grade,salary,date_of_birth,audit) values(2,'Sushant','Temkar','7972501198','E1','20000','05/08/1997',true)
