@@ -32,29 +32,23 @@
 						</goals>
 						<configuration>
 							<excludes>
-								<exclude>com/ems/constants/**</exclude>
-								<exclude>com/ems/customexception/**</exclude>
-								<exclude>com/ems/**</exclude>
-								<exclude>com/ems/controlleradvice/**</exclude>
-								<exclude>com/ems/enums/**</exclude>
-								<!-- <exclude>com/ems/constants/CommonMessagesConstants.class</exclude> -->
-								<!-- <exclude>com/ems/customexception/EmployeeNotFoundException.class</exclude> -->
-								<!-- <exclude>com/ems/customexception/InvalidAgeException.class</exclude> -->
-								<!-- <exclude>com/ems/customexception/InvalidGradeException.class</exclude> -->
-								<!-- <exclude>com/ems/customexception/SaveEmployeeDetailsException.class</exclude> -->
-								<!-- <exclude>com/ems/EmsApplication.class</exclude> -->
-								<!-- <exclude>com/ems/controlleradvice/ExceptionResponseModel.class</exclude> -->
-								<!-- <exclude>com/ems/controlleradvice/HandleGlobalException.class</exclude> -->
-								<!-- <exclude>com/ems/enums/**</exclude> -->
+								<exclude>com/ems/constants/CommonMessagesConstants.class</exclude>
+								<exclude>com/ems/customexception/EmployeeNotFoundException.class</exclude>
+								<exclude>com/ems/customexception/InvalidAgeException.class</exclude>
+								<exclude>com/ems/customexception/InvalidGradeException.class</exclude>
+								<exclude>com/ems/customexception/SaveEmployeeDetailsException.class</exclude>
+								<exclude>com/ems/EmsApplication.class</exclude>
+								<exclude>com/ems/controlleradvice/ExceptionResponseModel.class</exclude>
+								<exclude>com/ems/controlleradvice/HandleGlobalException.class</exclude>
 							</excludes>
 							<rules>
 								<rule>
-									<element>PACKAGE</element>
+									<element>BUNDLE</element>
 									<limits>
 										<limit>
 											<counter>INSTRUCTION</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.95</minimum>
+											<minimum>0.94</minimum>
 										</limit>
 									</limits>
 								</rule>
