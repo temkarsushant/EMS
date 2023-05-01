@@ -19,6 +19,7 @@ import com.ems.utility.CommonUtility;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -53,13 +54,16 @@ public class EmsServiceImpl implements EmsService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public List<EmployeeDto> getAllEmployeesList() throws EmployeeNotFoundException {
 		List<Employee> employeList = employeeRepository.getAllEmployeesList();
-		
+
 		List<EmployeeDto> employeeDtos = new ArrayList<>();
 
 		if (employeList != null && employeList.size() > 0) {
-			employeList.stream().forEach((employee) -> {employeeDtos.add(employeeMapper.employeeToDto(employee));});
+			employeList.stream().forEach((employee) -> {
+				employeeDtos.add(employeeMapper.employeeToDto(employee));
+			});
 		} else {
 			throw new EmployeeNotFoundException(CommonMessagesConstants.EmployeeNotFoundException);
 		}
@@ -68,6 +72,7 @@ public class EmsServiceImpl implements EmsService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public EmployeeDto getEmployee(Long eid) throws EmployeeNotFoundException {
 		Optional<Employee> employeeDetails = employeeRepository.getEmployeeById(eid);
 
