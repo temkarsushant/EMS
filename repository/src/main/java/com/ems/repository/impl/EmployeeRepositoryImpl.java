@@ -36,15 +36,4 @@ public class EmployeeRepositoryImpl extends BaseRepositoryImpl<Employee, Long> i
 		return Optional.ofNullable(queryFactory.select(emloyee).from(emloyee).where(emloyee.UUID.eq(eid)).fetchFirst());
 	}
 
-	@Override
-	public Long saveEmployee(Employee employee) {
-		Session session = sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		Long id = (Long) session.save(employee);
-		transaction.commit();
-		session.close();
-
-		return id;
-	}
-
 }

@@ -1,4 +1,4 @@
-package service;
+package com.ems.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,30 +41,24 @@ public class EmsServiceTest {
 	ModelMapper modelMapper;
 
 	@Test
-	public void testSaveEmployee_ShouldReturnEmloyeeDetailsWithId_WhenEmployeeDetailsIsPassed()
+	public void testSaveEmployee_ShouldReturnEmloyeeDetails_WhenEmployeeDetailsIsPassed()
 			throws InvalidAgeException, SaveEmployeeDetailsException, InvalidGradeException {
 		// Expected Result
-		Optional<Employee> exEmployee = Optional
-				.of(new Employee(1l, "Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997", true));
+		EmployeeDto exEmployeeDto = new EmployeeDto("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997",
+				true);
 
 		// Actual Result
 		Employee employee = new Employee("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997", true);
-		EmployeeDto employeeDto = new EmployeeDto("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997",
+		EmployeeDto acEmployeeDto = new EmployeeDto("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997",
 				true);
-		// exEmployee.setUUID(1l);
-
-		Optional<Employee> acEmployee = Optional
-				.of(new Employee(1l, "Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997", true));
-
-		Long actualResult = 1l;
 
 		// Mocking
-		Mockito.when(employeeMapper.dtoToEmployee(employeeDto)).thenReturn(employee);
-		Mockito.when(employeeRepository.saveEmployee(employee)).thenReturn(actualResult);
-		Mockito.when(employeeRepository.getEmployeeById(1l)).thenReturn(acEmployee);
+		Mockito.when(employeeMapper.dtoToEmployee(acEmployeeDto)).thenReturn(employee);
+		Mockito.when(employeeMapper.employeeToDto(employee)).thenReturn(acEmployeeDto);
+		Mockito.when(employeeRepository.save(employee)).thenReturn(employee);
 
 //		Checking
-		assertEquals(exEmployee.get().getUUID(), emsService.save(employeeDto).getUUID());
+		assertEquals(exEmployeeDto.getFirstName(), emsService.save(acEmployeeDto).getFirstName());
 	}
 
 	@Test
@@ -95,10 +89,10 @@ public class EmsServiceTest {
 		Employee employee = new Employee("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997", true);
 		EmployeeDto employeeDto = new EmployeeDto("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997",
 				true);
-		Long actualResult = null;
+		Employee actualResult = null;
 		// Mocking
 		Mockito.when(employeeMapper.dtoToEmployee(employeeDto)).thenReturn(employee);
-		Mockito.when(employeeRepository.saveEmployee(employee)).thenReturn(actualResult);
+		Mockito.when(employeeRepository.save(employee)).thenReturn(actualResult);
 		// Checking
 		SaveEmployeeDetailsException thrown = Assertions.assertThrows(SaveEmployeeDetailsException.class, () -> {
 			emsService.save(employeeDto);
@@ -129,7 +123,6 @@ public class EmsServiceTest {
 		// Mocking
 		Mockito.when(employeeRepository.getAllEmployeesList()).thenReturn(actualResultList);
 		// Checking
-		// assertEquals(expectedResultList, emsService.getAllEmployeesList());
 		Assertions.assertTrue(expectedResultList.size() == emsService.getAllEmployeesList().size());
 	}
 
@@ -163,7 +156,6 @@ public class EmsServiceTest {
 		Mockito.when(employeeRepository.getEmployeeById(1l)).thenReturn(employee);
 		Mockito.when(employeeMapper.employeeToDto(employee.get())).thenReturn(employeeDto);
 		// Checking
-		// assertEquals(expectedResultList, emsService.getAllEmployeesList());
 		Assertions.assertTrue(employeeDto.getDesignation().equals(emsService.getEmployee(1l).getDesignation()));
 	}
 

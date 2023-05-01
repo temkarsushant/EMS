@@ -11,7 +11,6 @@ import com.ems.customexception.InvalidAgeException;
 import com.ems.customexception.InvalidGradeException;
 import com.ems.customexception.SaveEmployeeDetailsException;
 import com.ems.dto.EmployeeDto;
-import com.ems.entity.Employee;
 import com.ems.service.impl.EmsServiceImpl;
 
 import org.junit.jupiter.api.Assertions;
@@ -32,20 +31,15 @@ public class EmsControllerTest {
 	private EmsController emsController;
 
 	@Test
-	public void testSaveEmployee_ShouldReturnEmloyeeDetailsWithId_WhenEmployeeDetailsIsPassed()
+	public void testSaveEmployee_ShouldReturnEmloyeeDetails_WhenEmployeeDetailsIsPassed()
 			throws InvalidAgeException, SaveEmployeeDetailsException, InvalidGradeException {
 
-		Employee employee = new Employee("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997", true);
+		EmployeeDto actualEmployeeDto = new EmployeeDto("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997",
+				true);
 
-		Employee actualEmployee = new Employee("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997", true);
-		actualEmployee.setUUID(1l);
-		
-		EmployeeDto actualEmployeeDto = new EmployeeDto("Sushant", "Temkar", "7972501198", "E1", "salary", "05/08/1997", true);
-//		actualEmployeeDto.setUUID(1l);
+		Mockito.when(emsService.save(actualEmployeeDto)).thenReturn(actualEmployeeDto);
 
-		Mockito.when(emsService.save(actualEmployeeDto)).thenReturn(actualEmployee);
-
-		ResponseEntity<Employee> responseEntity = emsController.saveEmployee(actualEmployeeDto);
+		ResponseEntity<EmployeeDto> responseEntity = emsController.saveEmployee(actualEmployeeDto);
 
 		assertThat(responseEntity.getStatusCode().value()).isEqualTo(200);
 
@@ -54,11 +48,12 @@ public class EmsControllerTest {
 	@Test
 	public void testsaveEmployee_ShouldReturnInvalidGradeException_WhenInvalidGradeIsPassed()
 			throws InvalidAgeException, SaveEmployeeDetailsException {
-		EmployeeDto employee = new EmployeeDto("Sushant", "Temkar", "7972501198", "L1", "salary", "05/08/1997", true);
+		EmployeeDto employeeDto = new EmployeeDto("Sushant", "Temkar", "7972501198", "L1", "salary", "05/08/1997",
+				true);
 
 		// Test
 		InvalidGradeException thrown = Assertions.assertThrows(InvalidGradeException.class, () -> {
-			emsController.saveEmployee(employee);
+			emsController.saveEmployee(employeeDto);
 		});
 
 	}
@@ -68,6 +63,7 @@ public class EmsControllerTest {
 			throws InvalidAgeException, SaveEmployeeDetailsException, EmployeeNotFoundException {
 		// Expected Result
 		List<EmployeeDto> employeeDtos = new ArrayList<>();
+		
 		EmployeeDto employeeDto1 = new EmployeeDto("Sushant Temkar", "7972501198", "E1", "Software Engg", "20000",
 				"05/08/1997", 25, true);
 		EmployeeDto employeeDto2 = new EmployeeDto("Sushant Temkar", "7972501198", "E1", "Software Engg", "20000",
@@ -93,6 +89,7 @@ public class EmsControllerTest {
 		Mockito.when(emsService.getEmployee(1l)).thenReturn(employeeDto);
 
 		ResponseEntity<EmployeeDto> employeeDetails = emsController.getEmployee(1l);
+		
 		assertThat(employeeDetails.getBody().getFullName()).isEqualTo("Sushant Temkar");
 
 	}

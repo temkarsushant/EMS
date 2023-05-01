@@ -35,10 +35,9 @@ public class EmsController {
 	CommonUtility commonUtility;
 
 	@PostMapping("/v1")
-	public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody EmployeeDto employee)
+	public ResponseEntity<EmployeeDto> saveEmployee(@Valid @RequestBody EmployeeDto employee)
 			throws InvalidAgeException, InvalidGradeException, SaveEmployeeDetailsException {
 		if (CommonUtility.findByGrade(employee.getGrade())) {
-			System.out.println(employee.getGrade());
 			return new ResponseEntity<>(emsService.save(employee), HttpStatus.OK);
 		} else {
 			throw new InvalidGradeException(CommonMessagesConstants.InvalidGradeExceptionConstant);

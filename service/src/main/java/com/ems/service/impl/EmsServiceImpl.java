@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Resource;
-
 import com.ems.constants.CommonMessagesConstants;
 import com.ems.customexception.EmployeeNotFoundException;
 import com.ems.customexception.InvalidAgeException;
+import com.ems.customexception.InvalidGradeException;
 import com.ems.customexception.SaveEmployeeDetailsException;
 import com.ems.dto.EmployeeDto;
 import com.ems.entity.Employee;
@@ -36,16 +35,18 @@ public class EmsServiceImpl implements EmsService {
 	EmployeeMapper employeeMapper;
 
 	@Override
-	public Employee save(EmployeeDto employeeDto) throws InvalidAgeException, SaveEmployeeDetailsException {
+	public EmployeeDto save(EmployeeDto employeeDto)
+			throws InvalidAgeException, SaveEmployeeDetailsException, InvalidGradeException {
 
 		if (CommonUtility.calculateAge(CommonUtility.getLocalDate(employeeDto.getDateOfBirth())) < 21) {
 			throw new InvalidAgeException(CommonMessagesConstants.InvalidAgeExceptionConstant);
 		}
 
-		Long id = employeeRepository.saveEmployee(employeeMapper.dtoToEmployee(employeeDto));
-		if (id != null) {
-			Optional<Employee> employeeDetails = employeeRepository.getEmployeeById(id);
-			return employeeDetails.get();
+		Employee employeeDetails = employeeRepository.save(employeeMapper.dtoToEmployee(employeeDto));
+
+		if (employeeDetails != null) {
+			EmployeeDto employeeDtoDetails = employeeMapper.employeeToDto(employeeDetails);
+			return employeeDtoDetails;
 		} else {
 			throw new SaveEmployeeDetailsException(CommonMessagesConstants.SaveEmployeeDetailsExceptionConstant);
 		}
@@ -54,15 +55,11 @@ public class EmsServiceImpl implements EmsService {
 	@Override
 	public List<EmployeeDto> getAllEmployeesList() throws EmployeeNotFoundException {
 		List<Employee> employeList = employeeRepository.getAllEmployeesList();
+		
 		List<EmployeeDto> employeeDtos = new ArrayList<>();
-		System.out.println(employeList);
 
 		if (employeList != null && employeList.size() > 0) {
-
-			employeList.stream().forEach((employee) -> {
-				employeeDtos.add(employeeMapper.employeeToDto(employee));
-			});
-
+			employeList.stream().forEach((employee) -> {employeeDtos.add(employeeMapper.employeeToDto(employee));});
 		} else {
 			throw new EmployeeNotFoundException(CommonMessagesConstants.EmployeeNotFoundException);
 		}
@@ -75,9 +72,7 @@ public class EmsServiceImpl implements EmsService {
 		Optional<Employee> employeeDetails = employeeRepository.getEmployeeById(eid);
 
 		if (employeeDetails != null && employeeDetails.isPresent()) {
-			Employee employee = employeeDetails.get();
-
-			EmployeeDto employeeDto = employeeMapper.employeeToDto(employee);
+			EmployeeDto employeeDto = employeeMapper.employeeToDto(employeeDetails.get());
 			return employeeDto;
 		} else {
 			throw new EmployeeNotFoundException(CommonMessagesConstants.EmployeeNotFoundException);

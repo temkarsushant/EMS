@@ -52,14 +52,14 @@
 						</goals>
 						<configuration>
 							<excludes>
-								<exclude>com/ems/**</exclude>
+								<exclude>com/ems/EmsApplication.class</exclude>
 							</excludes>
 							<rules>
 								<rule>
 									<element>PACKAGE</element>
 									<limits>
 										<limit>
-											<counter>LINE</counter>
+											<counter>INSTRUCTION</counter>
 											<value>COVEREDRATIO</value>
 											<minimum>0.95</minimum>
 										</limit>

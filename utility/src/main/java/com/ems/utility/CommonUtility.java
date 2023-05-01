@@ -3,14 +3,9 @@ package com.ems.utility;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.ems.enums.GreadeAndDesignationEnum;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -43,8 +38,8 @@ public class CommonUtility {
 	}
 
 	public static String getEmployeeDesignation(String grade) {
-
 		return GreadeAndDesignationEnum.valueOf(grade).label;
+
 	}
 
 }

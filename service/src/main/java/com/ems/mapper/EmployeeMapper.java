@@ -15,7 +15,7 @@ public class EmployeeMapper {
 	ModelMapper modelMapper;
 
 	public EmployeeDto employeeToDto(Employee employee) {
-		EmployeeDto employeeDto = this.modelMapper.map(employee, EmployeeDto.class);
+		EmployeeDto employeeDto = modelMapper.map(employee, EmployeeDto.class);
 		employeeDto.setAge(CommonUtility.calculateAge(CommonUtility.getLocalDate(employee.getDateOfBirth())));
 		employeeDto.setDesignation(CommonUtility.getEmployeeDesignation(employee.getGrade()));
 		employeeDto.setFullName(employee.getFirstName() + " " + employee.getLastName());
@@ -23,7 +23,7 @@ public class EmployeeMapper {
 	}
 
 	public Employee dtoToEmployee(EmployeeDto employeeDto) {
-		Employee employee = this.modelMapper.map(employeeDto, Employee.class);
+		Employee employee = modelMapper.map(employeeDto, Employee.class);
 		return employee;
 	}
 }
